@@ -6,7 +6,7 @@ import { Button } from '@/components/custom/Button';
 import { OptionCard } from '@/components/custom/OptionCard';
 import { ProgressBar } from '@/components/custom/ProgressBar';
 import { OBSTACLES, ACHIEVEMENTS } from '@/lib/types';
-import { ArrowLeft, User, Mail, Lock, Calendar, Dumbbell, Target, Scale, TrendingUp, Heart, Star, CreditCard, Check } from 'lucide-react';
+import { ArrowLeft, User, Mail, Lock, Calendar, Dumbbell, Target, Scale, TrendingUp, Heart, Star } from 'lucide-react';
 
 type Step = 
   | 'personal' 
@@ -16,8 +16,7 @@ type Step =
   | 'target-weight' 
   | 'obstacles' 
   | 'achievements'
-  | 'testimonials'
-  | 'checkout';
+  | 'testimonials';
 
 export default function CadastroPage() {
   const router = useRouter();
@@ -36,7 +35,7 @@ export default function CadastroPage() {
     achievements: [] as string[],
   });
 
-  const steps: Step[] = ['personal', 'workouts', 'goal', 'current-weight', 'target-weight', 'obstacles', 'achievements', 'testimonials', 'checkout'];
+  const steps: Step[] = ['personal', 'workouts', 'goal', 'current-weight', 'target-weight', 'obstacles', 'achievements', 'testimonials'];
   const currentStepIndex = steps.indexOf(step);
   const totalSteps = steps.length;
 
@@ -85,8 +84,6 @@ export default function CadastroPage() {
       case 'achievements':
         return formData.achievements.length > 0;
       case 'testimonials':
-        return true;
-      case 'checkout':
         return true;
       default:
         return false;
@@ -439,88 +436,21 @@ export default function CadastroPage() {
             </div>
           </div>
         )}
-
-        {/* Checkout */}
-        {step === 'checkout' && (
-          <div className="space-y-6 animate-fade-in">
-            <div>
-              <h2 className="text-3xl font-bold mb-2">Finalize sua assinatura</h2>
-              <p className="text-gray-600">Último passo para começar sua jornada</p>
-            </div>
-
-            {/* Card do Plano */}
-            <div className="bg-gradient-to-br from-black to-gray-800 text-white p-8 rounded-2xl shadow-xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
-                  <CreditCard className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold">Plano Premium</h3>
-                  <p className="text-gray-300 text-sm">Acesso completo ao AI BR</p>
-                </div>
-              </div>
-
-              <div className="space-y-3 mb-6">
-                {[
-                  'IA para análise de calorias',
-                  'Planos personalizados',
-                  'Acompanhamento diário',
-                  'Suporte prioritário',
-                  'Sem anúncios',
-                ].map((feature, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                    <p className="text-gray-100">{feature}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t border-white/20 pt-6">
-                <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-4xl font-bold">R$ 29,90</span>
-                  <span className="text-gray-300">/mês</span>
-                </div>
-                <p className="text-sm text-gray-400">Cancele quando quiser</p>
-              </div>
-            </div>
-
-            {/* Botão de Pagamento */}
-            <a
-              href="https://checkout.keoto.com/e23e05d8-3f10-46a6-b6ef-fbcdd9acd7d8"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full"
-            >
-              <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white">
-                <CreditCard className="w-5 h-5" />
-                Ir para pagamento
-              </Button>
-            </a>
-
-            <p className="text-center text-sm text-gray-500">
-              🔒 Pagamento seguro processado pela Keoto
-            </p>
-          </div>
-        )}
       </div>
 
       {/* Footer com botão */}
-      {step !== 'checkout' && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4">
-          <div className="max-w-2xl mx-auto">
-            <Button
-              size="lg"
-              onClick={handleNext}
-              disabled={!canContinue()}
-              className="w-full"
-            >
-              {step === 'testimonials' ? 'Continuar' : 'Continuar'}
-            </Button>
-          </div>
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4">
+        <div className="max-w-2xl mx-auto">
+          <Button
+            size="lg"
+            onClick={handleNext}
+            disabled={!canContinue()}
+            className="w-full"
+          >
+            {step === 'testimonials' ? 'Começar agora' : 'Continuar'}
+          </Button>
         </div>
-      )}
+      </div>
     </div>
   );
 }
