@@ -50,21 +50,24 @@ export default function CadastroPage() {
   const handleNext = () => {
     if (currentStepIndex < totalSteps - 1) {
       setStep(steps[currentStepIndex + 1]);
-    } else {
-      // Calcular meta de água baseada no peso (35ml por kg)
-      const weight = parseFloat(formData.currentWeight);
-      const waterGoal = weight > 0 ? Math.round(weight * 35) : 2500;
-      
-      // Salvar dados com meta de água calculada
-      const profileData = {
-        ...formData,
-        waterGoal,
-        caloriesGoal: 2000, // Valor padrão, pode ser calculado depois
-      };
-      
-      localStorage.setItem('userProfile', JSON.stringify(profileData));
-      router.push('/home');
     }
+  };
+
+  const handleComplete = () => {
+    // Salvar dados do perfil
+    const weight = parseFloat(formData.currentWeight);
+    const waterGoal = weight > 0 ? Math.round(weight * 35) : 2500;
+    
+    const profileData = {
+      ...formData,
+      waterGoal,
+      caloriesGoal: 2000,
+    };
+    
+    localStorage.setItem('userProfile', JSON.stringify(profileData));
+    
+    // Redirecionar para o app
+    router.push('/home');
   };
 
   const canContinue = () => {
@@ -443,11 +446,11 @@ export default function CadastroPage() {
         <div className="max-w-2xl mx-auto">
           <Button
             size="lg"
-            onClick={handleNext}
+            onClick={step === 'testimonials' ? handleComplete : handleNext}
             disabled={!canContinue()}
             className="w-full"
           >
-            {step === 'testimonials' ? 'Começar agora' : 'Continuar'}
+            {step === 'testimonials' ? 'Entrar no aplicativo' : 'Continuar'}
           </Button>
         </div>
       </div>
